@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --button: #D19254;
+    --hoverButtonColor: #d18c47;
+  }
+
+}
