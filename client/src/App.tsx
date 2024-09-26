@@ -8,6 +8,7 @@ import ResetPassword from "./auth/ResetPassword";
 import VerifyEmail from "./auth/VerifyEmail";
 import HereSection from "./components/HereSection";
 import MainLayout from "./layout/MainLayout";
+import Profile from "./components/Profile";
 
 const appRouter = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/",
         element: <HereSection />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
