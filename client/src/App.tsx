@@ -9,6 +9,7 @@ import VerifyEmail from "./auth/VerifyEmail";
 import HereSection from "./components/HereSection";
 import MainLayout from "./layout/MainLayout";
 import Profile from "./components/Profile";
+import SearchPage from "./components/SearchPage";
 
 const appRouter = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/search/:text",
+        element: <SearchPage />,
       },
     ],
   },
