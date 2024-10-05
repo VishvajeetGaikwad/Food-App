@@ -20,6 +20,7 @@ export interface IUser {
   verificationTokenExpiresAt?: Date;
 }
 export interface IUserDocument extends IUser, Document {
+  _id: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -48,11 +49,11 @@ const userSchema = new mongoose.Schema<IUserDocument>(
     },
     city: {
       type: String,
-      default: "Update your addess",
+      default: "Update your city",
     },
     country: {
       type: String,
-      default: "Update your addess",
+      default: "Update your country",
     },
     profilePicture: {
       type: String,

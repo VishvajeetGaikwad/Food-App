@@ -16,7 +16,7 @@ export const signup = async (req: Request, res: Response) => {
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const verificationToken = "abcde"; //generateVerificationCode();
+    const verificationToken = "abcdef"; //generateVerificationCode();
     user = await User.create({
       fullname,
       email,
