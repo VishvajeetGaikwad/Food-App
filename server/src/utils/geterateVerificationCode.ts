@@ -12,3 +12,4 @@ export const generateVerificationCode = (length = 6): string => {
 
   return verificationCode;
 };
+generateVerificationCode();

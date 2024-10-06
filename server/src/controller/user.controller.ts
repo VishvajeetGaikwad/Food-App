@@ -3,6 +3,7 @@ import { User } from "../models/user.model";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import cloudinary from "../utils/cloudinary";
+import { generateVerificationCode } from "../utils/geterateVerificationCode";
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -16,7 +17,7 @@ export const signup = async (req: Request, res: Response) => {
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const verificationToken = "abcdef"; //generateVerificationCode();
+    const verificationToken = generateVerificationCode; //generateVerificationCode();
     user = await User.create({
       fullname,
       email,
