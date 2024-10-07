@@ -32,7 +32,7 @@ export const addMenu = async (req: Request, res: Response): Promise<void> => {
     const restaurant = await Restaurant.findOne({ user: req.id });
 
     if (restaurant) {
-      (restaurant.menus as mongoose.Schema.Types.ObjectId[]).push(menu._id); //Same error as YT
+      restaurant.menus.push(menu._id); //Same error as YT
       await restaurant.save();
     } else {
       res.status(404).json({
