@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
@@ -7,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { SignupInputState, userSignupSchema } from "@/schema/userSchema";
+import { useUserStore } from "@/store/useUserStore";
 
 const Signup = () => {
   const [input, setInput] = useState<SignupInputState>({
@@ -17,6 +17,8 @@ const Signup = () => {
   });
 
   const [errors, setErrors] = useState<Partial<SignupInputState>>({});
+  const { loading, signup } = useUserStore();
+  //const loading = false;
 
   const changeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,7 +28,7 @@ const Signup = () => {
     });
   };
 
-  const loginSubmitHandler = (e: FormEvent) => {
+  const loginSubmitHandler = async (e: FormEvent) => {
     e.preventDefault();
     // form validation check start
     const result = userSignupSchema.safeParse(input);
@@ -35,10 +37,15 @@ const Signup = () => {
       setErrors(fieldErrors as Partial<SignupInputState>);
       return;
     }
-    console.log(input);
+    //login api implementation start here
+    // try {
+    await signup(input);
+    //  navigate("/verify-email");
+    //} catch (error) {
+    // console.log(error);
+    //}
   };
 
-  const loading = false;
   return (
     <div className="flex items-center justify-center min h-screen">
       {" "}

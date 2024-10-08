@@ -1,14 +1,16 @@
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 //import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { useUserStore } from "@/store/useUserStore";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRef = useRef<any>([]);
   //const navigate = useNavigate();
-  const loading = false;
+  //const loading = useUserStore();
+  const { loading, verifyEmail } = useUserStore();
 
   const handleChange = (index: number, value: string) => {
     if (/^[a-zA-Z0-9]$/.test(value) || value === "") {
@@ -30,7 +32,11 @@ const VerifyEmail = () => {
       inputRef.current[index - 1].focus();
     }
   };
-
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const verificationCode = otp.join("");
+    await verifyEmail(verificationCode);
+  };
   return (
     <div className="flex items-center justify-center h-screen w-full">
       <div className="p-8 rounded-md w-full max-w-md flex flex-col gap-10 border border-gray-200">
@@ -40,7 +46,7 @@ const VerifyEmail = () => {
             Enter the 6 digit code sent to your email address
           </p>
         </div>
-        <form action="">
+        <form onSubmit={submitHandler}>
           <div className="flex justify-between">
             {otp.map((letter: string, idx: number) => (
               <Input

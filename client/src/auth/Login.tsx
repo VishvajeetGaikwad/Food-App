@@ -5,7 +5,8 @@ import { Loader2, LockKeyhole, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
-import { LoginInputState, userLoginSchema } from "@/schema/userSchema"
+import { LoginInputState, userLoginSchema } from "@/schema/userSchema";
+import { useUserStore } from "@/store/useUserStore";
 
 // type LoginInputState = {
 //   email: string;
@@ -18,6 +19,7 @@ const Login = () => {
     password: "",
   });
   const [errors, setErrors] = useState<Partial<LoginInputState>>({});
+  const { login, loading } = useUserStore();
 
   const changeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,7 +29,7 @@ const Login = () => {
     });
   };
 
-  const loginSubmitHandler = (e: FormEvent) => {
+  const loginSubmitHandler = async (e: FormEvent) => {
     e.preventDefault();
     // form validation check start
     const result = userLoginSchema.safeParse(input);
@@ -36,10 +38,10 @@ const Login = () => {
       setErrors(fieldErrors as Partial<LoginInputState>);
       return;
     }
-    console.log(input);
+
+    await login(input);
   };
 
-  const loading = false;
   return (
     <div className="flex items-center justify-center min h-screen">
       {" "}

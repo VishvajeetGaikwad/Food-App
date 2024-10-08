@@ -41,6 +41,7 @@ import { Separator } from "@radix-ui/react-separator";
 const Navbar = () => {
   const admin = true;
   const loading = false;
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex items-center justify-between h-14">
