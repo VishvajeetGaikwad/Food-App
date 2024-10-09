@@ -50,8 +50,8 @@ export const getRestaurant = async (
   res: Response
 ): Promise<void> => {
   try {
-    const restaurant = await Restaurant.findOne(
-      { user: req.id } /*).populate("menus"*/
+    const restaurant = await Restaurant.findOne({ user: req.id }).populate(
+      "menus"
     );
     if (!restaurant) {
       res.status(404).json({

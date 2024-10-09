@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
 import { Loader2, LockKeyhole, Mail, Phone, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { SignupInputState, userSignupSchema } from "@/schema/userSchema";
@@ -18,6 +18,8 @@ const Signup = () => {
 
   const [errors, setErrors] = useState<Partial<SignupInputState>>({});
   const { loading, signup } = useUserStore();
+  const navigate = useNavigate();
+
   //const loading = false;
 
   const changeEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,12 +40,12 @@ const Signup = () => {
       return;
     }
     //login api implementation start here
-    // try {
-    await signup(input);
-    //  navigate("/verify-email");
-    //} catch (error) {
-    // console.log(error);
-    //}
+    try {
+      await signup(input);
+      navigate("/verify-email");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

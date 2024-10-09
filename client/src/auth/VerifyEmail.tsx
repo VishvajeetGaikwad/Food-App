@@ -4,11 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useUserStore } from "@/store/useUserStore";
+import { useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRef = useRef<any>([]);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   //const loading = useUserStore();
   const { loading, verifyEmail } = useUserStore();
 
@@ -36,6 +37,12 @@ const VerifyEmail = () => {
     e.preventDefault();
     const verificationCode = otp.join("");
     await verifyEmail(verificationCode);
+    try {
+      await verifyEmail(verificationCode);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex items-center justify-center h-screen w-full">

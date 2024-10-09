@@ -130,7 +130,6 @@ export const useUserStore = create<UserState>()(
           const response = await axios.get(`${API_END_POINT}/check-auth`);
           if (response.data.success) {
             set({
-              loadig: false,
               user: response.data.user,
               isAuthenticated: true,
               isCheckingAuth: false,
@@ -138,17 +137,16 @@ export const useUserStore = create<UserState>()(
           }
         } catch (error) {
           set({
-            loading: false,
             isAuthenticated: false,
             isCheckingAuth: false,
           });
         }
       },
 
-      logout: async (input: LoginInputState) => {
+      logout: async () => {
         set({ loading: true });
         try {
-          const response = await axios.post(`${API_END_POINT}/logout`, input, {
+          const response = await axios.post(`${API_END_POINT}/logout`, {
             headers: {
               "Content-Type": "application/json",
             },
