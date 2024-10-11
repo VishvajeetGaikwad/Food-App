@@ -106,8 +106,8 @@ const Navbar = () => {
             </Link>
             <div className="flex flex-row items-center gap-2">
               <Avatar>
-                <AvatarImage />
-                <AvatarFallback>{user?.profilePicture}</AvatarFallback>
+                <AvatarImage src={user?.profilePicture} alt="ProfilePhoto" />
+                <AvatarFallback></AvatarFallback>
               </Avatar>
             </div>
             <div>
@@ -219,10 +219,10 @@ const MobileNavbar = () => {
         <SheetFooter className="flex flex-col gap-4">
           <div className="flex flex-row items-center gap-2 mb-4">
             <Avatar>
-              <AvatarImage />
+              <AvatarImage src={user?.profilePicture} alt="ProfilePhoto" />
               <AvatarFallback>{}</AvatarFallback>
             </Avatar>
-            <h1 className="font-bold">V Mern</h1>
+            <h1 className="font-bold">{user?.fullname}</h1>
           </div>
           <SheetClose asChild>
             {loading ? (
