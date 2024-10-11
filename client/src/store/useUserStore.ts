@@ -207,6 +207,7 @@ export const useUserStore = create<UserState>()(
 
       updateProfile: async (input: any) => {
         try {
+          console.log("Input data:", input); // Debug the input data
           const response = await axios.put(
             `${API_END_POINT}/profile/update`,
             input,
@@ -221,7 +222,10 @@ export const useUserStore = create<UserState>()(
             set({ user: response.data.user, isAuthenticated: true });
           }
         } catch (error: any) {
-          toast.error(error.response.data.message);
+          console.error("Update Profile Error:", error); // Log the error
+          toast.error(
+            error.response?.data?.message || "Profile update failed."
+          );
         }
       },
     }),

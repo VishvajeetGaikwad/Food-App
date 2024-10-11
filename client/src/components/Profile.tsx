@@ -4,20 +4,23 @@ import { FormEvent, useRef, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
+import { useUserStore } from "@/store/useUserStore";
 
 const Profile = () => {
-  const [ProfileData, setProfileData] = useState({
-    fullname: "",
-    email: "",
-    address: "",
-    city: "",
-    country: "",
-    profilePicture: "",
+  const { user, updateProfile } = useUserStore();
+  const [isloading, setIsLoading] = useState<boolean>(false);
+  const [profileData, setProfileData] = useState({
+    fullname: user?.fullname || "",
+    email: user?.email || "",
+    address: user?.address || "",
+    city: user?.city || "",
+    country: user?.country || "",
+    profilePicture: user?.profilePicture || "",
   });
   const imageRef = useRef<HTMLInputElement | null>(null);
-  const [selectedProfilePicture, setselectedProfilePicture] =
-    useState<string>("");
-  const loading = false;
+  const [selectedProfilePicture, setSelectedProfilePicture] = useState<string>(
+    profileData.profilePicture || ""
+  );
 
   const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -25,7 +28,7 @@ const Profile = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result as string;
-        setselectedProfilePicture(result);
+        setSelectedProfilePicture(result);
         setProfileData((prevData) => ({
           ...prevData,
           profilePicture: result,
@@ -37,12 +40,18 @@ const Profile = () => {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProfileData({ ...ProfileData, [name]: value });
+    setProfileData({ ...profileData, [name]: value });
   };
 
   const updateProfileHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // update profile API implementation part
+    try {
+      setIsLoading(true);
+      await updateProfile(profileData);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
   return (
     <form onSubmit={updateProfileHandler} className="max-w-7xl mx-auto my-5">
@@ -68,7 +77,7 @@ const Profile = () => {
           <Input
             type="text"
             name="fullname"
-            value={ProfileData.fullname}
+            value={profileData.fullname}
             onChange={changeHandler}
             className="font-bold text-2xl outline-none border-none focus-visible:ring-transparent"
           />
@@ -80,8 +89,9 @@ const Profile = () => {
           <div className="w-full">
             <Label>Email</Label>
             <input
+              disabled
               name="email"
-              value={ProfileData.email}
+              value={profileData.email}
               onChange={changeHandler}
               className="w-full text-gray-600 bg-transparent focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
             />
@@ -93,7 +103,7 @@ const Profile = () => {
             <Label>Address</Label>
             <input
               name="address"
-              value={ProfileData.address}
+              value={profileData.address}
               onChange={changeHandler}
               className="w-full text-gray-600 bg-transparent focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
             />
@@ -105,7 +115,7 @@ const Profile = () => {
             <Label>City</Label>
             <input
               name="city"
-              value={ProfileData.city}
+              value={profileData.city}
               onChange={changeHandler}
               className="w-full text-gray-600 bg-transparent focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
             />
@@ -117,7 +127,7 @@ const Profile = () => {
             <Label>Country</Label>
             <input
               name="country"
-              value={ProfileData.country}
+              value={profileData.country}
               onChange={changeHandler}
               className="w-full text-gray-600 bg-transparent focus-visible:ring-0 focus-visible:border-transparent outline-none border-none"
             />
@@ -125,7 +135,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="text-center">
-        {loading ? (
+        {isloading ? (
           <Button disabled className="bg-orange hover:bg-hoverOrange">
             <Loader2 className="mr-2 w-4 h-4 animate-spin" />
             Please wait

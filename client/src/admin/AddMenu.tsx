@@ -14,6 +14,8 @@ import { Loader2, Plus } from "lucide-react";
 import { FormEvent, useState } from "react";
 import EditMenu from "./EditMenu";
 import { MenuFormSchema, menuSchema } from "@/schema/menuSchema";
+import { useMenuStore } from "@/store/useMenuStore";
+import { useRestaurantStore } from "@/store/useRestaurantStore";
 
 const menus = [
   {
@@ -51,15 +53,16 @@ const AddMenu = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedMenu, setSelectedMenu] = useState<any>(null);
   const [error, setError] = useState<Partial<MenuFormSchema>>({});
+  const { loading, createMenu } = useMenuStore();
   const [editOpen, setEditOpen] = useState<any>();
-  const loading = false;
+  const { restaurant } = useRestaurantStore();
 
   const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
     setInput({ ...input, [name]: type === "number" ? Number(value) : value });
   };
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(input);
     const result = menuSchema.safeParse(input);
@@ -67,6 +70,19 @@ const AddMenu = () => {
       const fieldErrors = result.error.formErrors.fieldErrors;
       setError(fieldErrors as Partial<MenuFormSchema>);
       return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("name", input.name);
+      formData.append("description", input.description);
+      formData.append("price", input.price.toString());
+      if (input.image) {
+        formData.append("image", input.image);
+      }
+      await createMenu(formData);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -173,7 +189,7 @@ const AddMenu = () => {
           </DialogContent>
         </Dialog>
       </div>
-      {menus.map((menu: any, idx: number) => (
+      {restaurant.menus.map((menu: any, idx: number) => (
         <div key={idx} className="mt-6 space-y-4">
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4 md:p-4 p-2 shadow-md rounded-lg border">
             <img

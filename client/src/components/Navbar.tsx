@@ -38,9 +38,11 @@ import {
 } from "./ui/sheet";
 import { Separator } from "@radix-ui/react-separator";
 import { useUserStore } from "@/store/useUserStore";
+import { useCartStore } from "@/store/useCartStore";
 
 const Navbar = () => {
   const { user, loading, logout } = useUserStore();
+  const { cart } = useCartStore();
   //const admin = true;
   //const loading = false;
 
@@ -93,18 +95,19 @@ const Navbar = () => {
             </div>
             <Link to="/cart" className="relative cursor-pointer">
               <ShoppingCart />
-
-              <Button
-                size={"icon"}
-                className="absolute -inset-y-3 left-2 text-xs rounded-full w-4 h-4 bg-red-500 hover:bg-red-500 text-white"
-              >
-                5
-              </Button>
+              {cart.length > 0 && (
+                <Button
+                  size={"icon"}
+                  className="absolute -inset-y-3 left-2 text-xs rounded-full w-4 h-4 bg-red-500 hover:bg-red-500 text-white"
+                >
+                  {cart.length}
+                </Button>
+              )}
             </Link>
             <div className="flex flex-row items-center gap-2">
               <Avatar>
                 <AvatarImage />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>{user?.profilePicture}</AvatarFallback>
               </Avatar>
             </div>
             <div>
@@ -217,7 +220,7 @@ const MobileNavbar = () => {
           <div className="flex flex-row items-center gap-2 mb-4">
             <Avatar>
               <AvatarImage />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>{}</AvatarFallback>
             </Avatar>
             <h1 className="font-bold">V Mern</h1>
           </div>

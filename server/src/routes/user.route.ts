@@ -21,5 +21,6 @@ router.route("/forgot-password").post(forgotPassword);
 router.route("/reset-password/:token").post(resetPassword);
 router.route("/check-auth").get(isAuthenticated, updateProfile);
 router.route("/check-auth").get(isAuthenticated, checkAuth);
+router.route("/profile/update").put(isAuthenticated, updateProfile);
 
 export default router;

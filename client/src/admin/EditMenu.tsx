@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MenuFormSchema, menuSchema } from "@/schema/menuSchema";
+import { useMenuStore } from "@/store/useMenuStore";
 import { Loader2 } from "lucide-react";
 import {
   Dispatch,
@@ -36,7 +37,8 @@ const EditMenu = ({
   });
 
   const [error, setError] = useState<Partial<MenuFormSchema>>({});
-  const [loading, setLoading] = useState(false);
+  const [setLoading] = useState(false);
+  const { loading, editMenu } = useMenuStore();
 
   const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
@@ -51,20 +53,17 @@ const EditMenu = ({
       setError(fieldErrors as Partial<MenuFormSchema>);
       return;
     }
-    //console.log(input);
-
-    // Set loading state and call your API here
-    setLoading(true);
     try {
-      // API call to update the menu
-      // await api.updateMenu(selectedMenu.id, input);
-      console.log("Menu updated successfully");
-    } catch (apiError) {
-      console.error("Failed to update menu", apiError);
-      // Handle API error if needed
-    } finally {
-      setLoading(false);
-      setEditOpen(false); // Close the dialog after submission
+      const formData = new FormData();
+      formData.append("name", input.name);
+      formData.append("description", input.description);
+      formData.append("price", input.price.toString());
+      if (input.image) {
+        formData.append("image", input.image);
+      }
+      await editMenu(selectedMenu._id, formData);
+    } catch (error) {
+      console.log(error);
     }
   };
 
