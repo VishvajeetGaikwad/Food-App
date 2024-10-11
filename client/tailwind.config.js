@@ -13,3 +13,14 @@ export default {
   },
   plugins: [],
 };
+
+html.dark {
+  background-color; /* Set this to the dark background you want */
+  color: #f7fafc; /* Light text for dark theme */
+}
+
+/* Optional: Light mode default */
+html {
+  background-color: #ffffff; /* Default light theme background */
+  color: #000000;
+}

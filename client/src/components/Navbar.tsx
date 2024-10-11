@@ -14,16 +14,16 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import {
-  Sun,
-  Moon,
-  ShoppingCart,
-  Loader,
-  Menu,
-  User,
   HandPlatter,
-  SquareMenu,
-  UtensilsCrossed,
+  Loader2,
+  Menu,
+  Moon,
   PackageCheck,
+  ShoppingCart,
+  SquareMenu,
+  Sun,
+  User,
+  UtensilsCrossed,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
@@ -36,15 +36,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { Separator } from "@radix-ui/react-separator";
+import { Separator } from "./ui/separator";
 import { useUserStore } from "@/store/useUserStore";
 import { useCartStore } from "@/store/useCartStore";
+import { useThemeStore } from "@/store/useThemeStore";
 
 const Navbar = () => {
   const { user, loading, logout } = useUserStore();
   const { cart } = useCartStore();
-  //const admin = true;
-  //const loading = false;
+  const { setTheme } = useThemeStore();
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -88,8 +88,12 @@ const Navbar = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Light</DropdownMenuItem>
-                  <DropdownMenuItem>Dark</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("light")}>
+                    Light
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("dark")}>
+                    Dark
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -98,22 +102,22 @@ const Navbar = () => {
               {cart.length > 0 && (
                 <Button
                   size={"icon"}
-                  className="absolute -inset-y-3 left-2 text-xs rounded-full w-4 h-4 bg-red-500 hover:bg-red-500 text-white"
+                  className="absolute -inset-y-3 left-2 text-xs rounded-full w-4 h-4 bg-red-500 hover:bg-red-500"
                 >
                   {cart.length}
                 </Button>
               )}
             </Link>
-            <div className="flex flex-row items-center gap-2">
+            <div>
               <Avatar>
-                <AvatarImage src={user?.profilePicture} alt="ProfilePhoto" />
-                <AvatarFallback></AvatarFallback>
+                <AvatarImage src={user?.profilePicture} alt="profilephoto" />
+                <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
             <div>
               {loading ? (
                 <Button className="bg-orange hover:bg-hoverOrange">
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Please wait
                 </Button>
               ) : (
@@ -128,6 +132,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="md:hidden lg:hidden">
+          {/* Mobile responsive  */}
           <MobileNavbar />
         </div>
       </div>
@@ -139,6 +144,7 @@ export default Navbar;
 
 const MobileNavbar = () => {
   const { user, logout, loading } = useUserStore();
+  const { setTheme } = useThemeStore();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -161,31 +167,35 @@ const MobileNavbar = () => {
                 <span className="sr-only">Toggle theme</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white" align="end">
-              <DropdownMenuItem>Light</DropdownMenuItem>
-              <DropdownMenuItem>Dark</DropdownMenuItem>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </SheetHeader>
-        <Separator className="my-2 h-px bg-gray-300" />
+        <Separator className="my-2" />
         <SheetDescription className="flex-1">
           <Link
             to="/profile"
-            className="flex items-center gap-4 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer hover:text-gray-900 font-medium"
+            className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
           >
             <User />
             <span>Profile</span>
           </Link>
           <Link
             to="/order/status"
-            className="flex items-center gap-4 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer hover:text-gray-900 font-medium"
+            className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
           >
             <HandPlatter />
             <span>Order</span>
           </Link>
           <Link
             to="/cart"
-            className="flex items-center gap-4 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer hover:text-gray-900 font-medium"
+            className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
           >
             <ShoppingCart />
             <span>Cart (0)</span>
@@ -194,21 +204,21 @@ const MobileNavbar = () => {
             <>
               <Link
                 to="/admin/menu"
-                className="flex items-center gap-4 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer hover:text-gray-900 font-medium"
+                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
               >
                 <SquareMenu />
                 <span>Menu</span>
               </Link>
               <Link
                 to="/admin/restaurant"
-                className="flex items-center gap-4 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer hover:text-gray-900 font-medium"
+                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
               >
                 <UtensilsCrossed />
                 <span>Restaurant</span>
               </Link>
               <Link
                 to="/admin/orders"
-                className="flex items-center gap-4 hover:bg-gray-200 rounded-lg px-3 py-2 cursor-pointer hover:text-gray-900 font-medium"
+                className="flex items-center gap-4 hover:bg-gray-200 px-3 py-2 rounded-lg cursor-pointer hover:text-gray-900 font-medium"
               >
                 <PackageCheck />
                 <span>Restaurant Orders</span>
@@ -217,17 +227,17 @@ const MobileNavbar = () => {
           )}
         </SheetDescription>
         <SheetFooter className="flex flex-col gap-4">
-          <div className="flex flex-row items-center gap-2 mb-4">
+          <div className="flex flex-row items-center gap-2">
             <Avatar>
-              <AvatarImage src={user?.profilePicture} alt="ProfilePhoto" />
-              <AvatarFallback>{}</AvatarFallback>
+              <AvatarImage src={user?.profilePicture} />
+              <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <h1 className="font-bold">{user?.fullname}</h1>
+            <h1 className="font-bold">Patel Mernstack</h1>
           </div>
           <SheetClose asChild>
             {loading ? (
               <Button className="bg-orange hover:bg-hoverOrange">
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Please wait
               </Button>
             ) : (
