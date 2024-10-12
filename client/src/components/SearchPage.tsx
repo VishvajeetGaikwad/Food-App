@@ -14,6 +14,7 @@ import { Restaurant } from "@/types/restaurantType";
 const SearchPage = () => {
   const params = useParams();
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>(""); // New error message state
   const {
     loading,
     searchedRestaurant,
@@ -23,11 +24,22 @@ const SearchPage = () => {
   } = useRestaurantStore();
 
   useEffect(() => {
-    searchRestaurant(params.text!, searchQuery, appliedFilter);
-  }, [params.text!, appliedFilter]);
+    if (params.text) {
+      searchRestaurant(params.text, searchQuery, appliedFilter);
+    }
+  }, [params.text, appliedFilter]);
+
+  const handleSearch = () => {
+    if (!searchQuery.trim()) {
+      setErrorMessage("Please enter a search term!"); // Set error message
+    } else {
+      setErrorMessage(""); // Clear error message if searchQuery is valid
+      searchRestaurant(params.text!, searchQuery, appliedFilter);
+    }
+  };
 
   return (
-    <div className="max-w-7xl mx-auto my-10">
+    <div className="max-w-7xl mx-auto my-10 mt-[70px]">
       <div className="flex flex-col md:flex-row justify-between gap-10">
         <FilterPage />
         <div className="flex-1">
@@ -40,15 +52,19 @@ const SearchPage = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <Button
-              onClick={() =>
-                searchRestaurant(params.text!, searchQuery, appliedFilter)
-              }
+              onClick={handleSearch}
               className="bg-orange hover:bg-hoverOrange"
             >
               Search
             </Button>
           </div>
-          {/* Searched Items display here  */}
+
+          {/* Display Error Message if searchQuery is empty */}
+          {errorMessage && (
+            <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+          )}
+
+          {/* Searched Items display here */}
           <div>
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-2 my-3">
               <h1 className="font-medium text-lg">
@@ -75,7 +91,8 @@ const SearchPage = () => {
                 ))}
               </div>
             </div>
-            {/* Restaurant Cards  */}
+
+            {/* Restaurant Cards */}
             <div className="grid md:grid-cols-3 gap-4">
               {loading ? (
                 <SearchPageSkeleton />
@@ -192,7 +209,7 @@ const SearchPageSkeleton = () => {
 
 const NoResultFound = ({ searchText }: { searchText: string }) => {
   return (
-    <div className="text-center">
+    <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
       <h1 className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
         No results found
       </h1>

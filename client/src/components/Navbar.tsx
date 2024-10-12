@@ -47,8 +47,8 @@ const Navbar = () => {
   const { setTheme } = useThemeStore();
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex items-center justify-between h-14">
+    <div className="w-full fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 z-50 shadow-md">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-14">
         <Link to="/">
           <h1 className="font-bold md:font-extrabold text-2xl">WeEats</h1>
         </Link>

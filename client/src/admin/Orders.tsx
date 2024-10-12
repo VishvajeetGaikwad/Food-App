@@ -21,7 +21,7 @@ const Orders = () => {
     getRestaurantOrders();
   }, []);
   return (
-    <div className="max-w-6xl mx-auto py-10 px-6">
+    <div className="flex flex-col max-w-7xl mx-auto my-10 mt-[70px]">
       <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-10">
         Orders Overview
       </h1>
@@ -41,6 +41,7 @@ const Orders = () => {
                 <span className="font-semibold">Total Amount: </span>
                 {order.totalAmount / 100}
               </p>
+              \
             </div>
             <div className="w-full sm:w-1/3">
               <Label className="block text-sm font-medium text-gray-700 dark:text-gray300 mb-2">

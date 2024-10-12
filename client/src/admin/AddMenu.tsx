@@ -17,31 +17,6 @@ import { MenuFormSchema, menuSchema } from "@/schema/menuSchema";
 import { useMenuStore } from "@/store/useMenuStore";
 import { useRestaurantStore } from "@/store/useRestaurantStore";
 
-const menus = [
-  {
-    name: "Chicken",
-    description: "Delicious grilled chicken.",
-    price: 80,
-    image:
-      "https://img.freepik.com/free-photo/plate-food-with-bowl-beef-curry_1340-23175.jpg?t=st=1727580625~exp=1727584225~hmac=30c0e62b047f16bdc9f706951b1afeeb58ee17ee3b09b8acda7b0dd0713e71ca&w=900",
-  },
-  {
-    name: "Chicken",
-    description: "Delicious grilled chicken.",
-    price: 80,
-    image:
-      "https://img.freepik.com/free-photo/plate-food-with-bowl-beef-curry_1340-23175.jpg?t=st=1727580625~exp=1727584225~hmac=30c0e62b047f16bdc9f706951b1afeeb58ee17ee3b09b8acda7b0dd0713e71ca&w=900",
-  },
-  {
-    name: "Chicken",
-    description: "Delicious grilled chicken.",
-    price: 80,
-    image:
-      "https://img.freepik.com/free-photo/plate-food-with-bowl-beef-curry_1340-23175.jpg?t=st=1727580625~exp=1727584225~hmac=30c0e62b047f16bdc9f706951b1afeeb58ee17ee3b09b8acda7b0dd0713e71ca&w=900",
-  },
-  // Add more menu items as needed
-];
-
 const AddMenu = () => {
   const [input, setInput] = useState<MenuFormSchema>({
     name: "",
@@ -87,7 +62,7 @@ const AddMenu = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto my-10">
+    <div className="flex flex-col max-w-7xl mx-auto my-10 mt-[70px]">
       <div className="flex justify-between">
         <h1 className="font-bold md:font-extrabold text-lg md:text-2xl">
           Available Menus

@@ -95,7 +95,7 @@ const Restaurant = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto my-10">
+    <div className="flex flex-col max-w-7xl mx-auto my-10 mt-[70px]">
       <div>
         <div>
           <h1 className="font-extrabold text-2xl mb-5">Add Restaurants</h1>

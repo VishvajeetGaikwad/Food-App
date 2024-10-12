@@ -23,7 +23,7 @@ const FilterPage = () => {
     setAppliedFilter(value);
   };
   return (
-    <div className="md:w-72">
+    <div className="md:w-72 mt-[70px]">
       <div className="flex items-center justify-between">
         <h1 className="font-medium text-lg">Filter by cuisines</h1>
         <Button variant={"link"} onClick={resetAppliedFilter}>
