@@ -33,7 +33,7 @@ const CheckoutConfirmPage = ({
     city: user?.city || "",
     country: user?.country || "",
   });
-  const { cart } = useCartStore();
+  const { cart, clearCart } = useCartStore(); // Include clearCart from the store
   const { restaurant } = useRestaurantStore();
   const { createCheckoutSession, loading } = useOrderStore();
 
@@ -59,12 +59,11 @@ const CheckoutConfirmPage = ({
         restaurantId: restaurant?._id as string,
       };
       await createCheckoutSession(checkoutData);
+      clearCart(); // Clear the cart after checkout
     } catch (error) {
       console.log(error);
     }
   };
-
-  //const loading = false;
 
   return (
     <div className="flex flex-col max-w-7xl mx-auto my-10 mt-[70px]">
