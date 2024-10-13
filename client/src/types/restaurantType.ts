@@ -4,8 +4,9 @@ export type MenuItem = {
   _id: string;
   name: string;
   description: string;
-  price: number;
+  price: number; // Ensure this is a number
   image: string;
+  quantity: number;
 };
 export type Restaurant = {
   _id: string;

@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MenuFormSchema, menuSchema } from "@/schema/menuSchema";
 import { useMenuStore } from "@/store/useMenuStore";
+import { MenuItem } from "@/types/restaurantType";
 import { Loader2 } from "lucide-react";
 import {
   Dispatch,
@@ -25,7 +26,7 @@ const EditMenu = ({
   editOpen,
   setEditOpen,
 }: {
-  selectedMenu: MenuFormSchema;
+  selectedMenu: MenuItem;
   editOpen: boolean;
   setEditOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
@@ -35,9 +36,7 @@ const EditMenu = ({
     price: 0,
     image: undefined,
   });
-
   const [error, setError] = useState<Partial<MenuFormSchema>>({});
-  const [setLoading] = useState(false);
   const { loading, editMenu } = useMenuStore();
 
   const changeEventHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +52,8 @@ const EditMenu = ({
       setError(fieldErrors as Partial<MenuFormSchema>);
       return;
     }
+
+    // api ka kaam start from here
     try {
       const formData = new FormData();
       formData.append("name", input.name);
@@ -68,22 +69,19 @@ const EditMenu = ({
   };
 
   useEffect(() => {
-    if (selectedMenu) {
-      setInput({
-        name: selectedMenu.name || "",
-        description: selectedMenu.description || "",
-        price: selectedMenu.price || 0,
-        image: undefined,
-      });
-    }
+    setInput({
+      name: selectedMenu?.name || "",
+      description: selectedMenu?.description || "",
+      price: selectedMenu?.price || 0,
+      image: undefined,
+    });
   }, [selectedMenu]);
-
   return (
     <Dialog open={editOpen} onOpenChange={setEditOpen}>
-      <DialogContent className="bg-white">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-center">Edit Menu</DialogTitle>
-          <DialogDescription className="text-center">
+          <DialogTitle>Edit Menu</DialogTitle>
+          <DialogDescription>
             Update your menu to keep your offerings fresh and exciting!
           </DialogDescription>
         </DialogHeader>
@@ -126,7 +124,7 @@ const EditMenu = ({
               value={input.price}
               onChange={changeEventHandler}
               placeholder="Enter menu price"
-            />{" "}
+            />
             {error && (
               <span className="text-xs font-medium text-red-600">
                 {error.price}
@@ -139,10 +137,7 @@ const EditMenu = ({
               type="file"
               name="image"
               onChange={(e) =>
-                setInput({
-                  ...input,
-                  image: e.target.files?.[0] || undefined,
-                })
+                setInput({ ...input, image: e.target.files?.[0] || undefined })
               }
             />
             {error && (
@@ -158,9 +153,7 @@ const EditMenu = ({
                 Please wait
               </Button>
             ) : (
-              <Button type="submit" className="bg-orange hover:bg-hoverOrange">
-                Submit
-              </Button>
+              <Button className="bg-orange hover:bg-hoverOrange">Submit</Button>
             )}
           </DialogFooter>
         </form>

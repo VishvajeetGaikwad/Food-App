@@ -1,8 +1,7 @@
-
-import { Input } from "@/components/ui/input";
-import { Loader2, LockKeyhole } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Loader2, LockKeyholeIcon } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const ResetPassword = () => {
@@ -26,7 +25,7 @@ const ResetPassword = () => {
             placeholder="Enter your new password"
             className="pl-10"
           />
-          <LockKeyhole className="absolute inset-y-2 left-2 text-gray-600 pointer-events-none" />
+          <LockKeyholeIcon className="absolute inset-y-2 left-2 text-gray-600 pointer-events-none" />
         </div>
         {loading ? (
           <Button disabled className="bg-orange hover:bg-hoverOrange">

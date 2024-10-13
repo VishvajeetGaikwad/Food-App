@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const menuSchema = z.object({
+  _id: z.string().optional(), // Make _id optional
   name: z.string().nonempty({ message: "Name is required" }),
   description: z.string().nonempty({ message: "Description is required" }),
   price: z.number().min(0, { message: "Price cannot be negative" }),

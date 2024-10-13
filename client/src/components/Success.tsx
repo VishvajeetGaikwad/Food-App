@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useOrderStore } from "@/store/useOrderStore";
 import { useEffect } from "react";
-import { CartItem } from "@/types/cartType";
+import { CartItem } from "@/types/cartType"; // Correctly importing
+//import { MenuItem } from "@/types/restaurantType";
 
 const Success = () => {
   const { orders, getOrderDetails } = useOrderStore();
@@ -12,7 +13,7 @@ const Success = () => {
   useEffect(() => {
     getOrderDetails();
     console.log("Orders:", orders);
-  }, [getOrderDetails]);
+  }, [getOrderDetails, orders]);
 
   if (orders.length === 0) {
     return (
@@ -29,13 +30,27 @@ const Success = () => {
 
   // Loop through each order and its cart items
   orders.forEach((order) => {
-    order.cartItems.forEach((item: CartItem) => {
+    order.cartItems.forEach((item: any) => {
+      // Using 'any' to avoid type issues
+      // Check if the item has the required properties
+      const cartItem: CartItem = {
+        _id: item.menuId || "", // Use menuId as fallback
+        name: item.name,
+        image: item.image,
+        price: Number(item.price), // Ensure price is a number
+        quantity: Number(item.quantity), // Ensure quantity is a number
+        description: item.description || "", // Default to empty string if description doesn't exist
+      };
+
       // If the item is already recorded, add its quantity
-      if (orderedItemsMap[item._id]) {
-        orderedItemsMap[item._id].quantity += item.quantity; // Update quantity
+      if (orderedItemsMap[cartItem._id]) {
+        orderedItemsMap[cartItem._id].quantity += cartItem.quantity; // Update quantity
       } else {
         // Otherwise, add the item to the map
-        orderedItemsMap[item._id] = { ...item, quantity: item.quantity }; // Initialize quantity
+        orderedItemsMap[cartItem._id] = {
+          ...cartItem,
+          quantity: cartItem.quantity,
+        }; // Initialize quantity
       }
     });
   });

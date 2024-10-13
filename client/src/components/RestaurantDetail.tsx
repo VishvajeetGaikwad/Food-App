@@ -50,7 +50,7 @@ const RestaurantDetail = () => {
             </div>
           </div>
         </div>
-        <AvailableMenu menus={singleRestaurant?.menus} />
+        <AvailableMenu menus={singleRestaurant?.menus || []} />
       </div>
     </div>
   );

@@ -14,7 +14,6 @@ import { useUserStore } from "@/store/useUserStore";
 import { CheckoutSessionRequest } from "@/types/orderType";
 import { useCartStore } from "@/store/useCartStore";
 import { useRestaurantStore } from "@/store/useRestaurantStore";
-import { createCheckoutSession } from "../../../server/src/controller/order.controller";
 import { useOrderStore } from "@/store/useOrderStore";
 
 const CheckoutConfirmPage = ({

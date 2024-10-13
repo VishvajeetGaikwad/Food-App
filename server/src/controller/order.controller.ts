@@ -90,7 +90,8 @@ export const createCheckoutSession = async (
       },
       line_items: lineItems,
       mode: "payment",
-      success_url: `${process.env.FRONTEND_URL}/order/status`,
+      success_url: `${process.env.FRONTEND_URL}/order/status?session_id={CHECKOUT_SESSION_ID}`,
+
       cancel_url: `${process.env.FRONTEND_URL}/cart`,
       metadata: {
         orderId: order._id.toString(),
@@ -129,7 +130,7 @@ export const stripeWebhook = async (
   let event;
 
   try {
-    const signature = req.headers["stripe-signature"];
+    //const signature = req.headers["stripe-signature"];
     const payloadString = JSON.stringify(req.body, null, 2);
     const secret = process.env.WEBHOOK_ENDPOINT_SECRET!;
 
