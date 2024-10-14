@@ -4,7 +4,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { useRestaurantStore } from "./useRestaurantStore";
 
-const API_END_POINT = "https://food-app-jugx.onrender.com/api/v1/menu"; // Ensure the correct API endpoint
+const API_END_POINT = "https://food-app-8rxc.onrender.com/api/v1/menu"; // Ensure the correct API endpoint
 axios.defaults.withCredentials = true;
 
 type MenuState = {
