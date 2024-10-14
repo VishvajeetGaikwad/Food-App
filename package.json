@@ -2,7 +2,6 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon server/src/index.ts",
     "stripe": "stripe listen --forward-to localhost:4001/api/v1/order/webhook",
