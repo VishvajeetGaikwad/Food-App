@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "http://localhost:5173", // Allow localhost in development, production URL in production
+  origin: process.env.FRONTEND_URL || "https://food-app-jugx.onrender.com", // Allow localhost in development, production URL in production
   credentials: true,
 };
 app.use(cors(corsOptions));
